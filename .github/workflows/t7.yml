@@ -13,9 +13,9 @@ env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
+  CONFIG_FILE: rax300m
   TZ: Asia/Shanghai
-  DEVICE: 360t7
+  DEVICE: rax300m
   UPLOAD_OUTPUT: true
 
 jobs:
@@ -53,13 +53,9 @@ jobs:
 
     - name: 配置 Feeds
       run: |
-        cp -f $GITHUB_WORKSPACE/.config $GITHUB_WORKSPACE/openwrt/
+        cp -f $GITHUB_WORKSPACE/${{ env.CONFIG_FILE }} $GITHUB_WORKSPACE/openwrt/.config
         cd openwrt
-        echo "src-git kenzo https://github.com/kenzok8/openwrt-packages" >> ./feeds.conf.default
-        echo "src-git small https://github.com/kenzok8/small" >> ./feeds.conf.default
         ./scripts/feeds update -a
-        ./scripts/feeds install -a
-        cp -f $GITHUB_WORKSPACE/.config $GITHUB_WORKSPACE/openwrt/
         ./scripts/feeds install -a
 
     - name: 修改 Lan IP
